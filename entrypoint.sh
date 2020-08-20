@@ -65,7 +65,11 @@ else
 fi
 
 if [[ -z $STATIC_LIST ]]; then
-  SRC_REPOS=`curl $SRC_REPO_LIST_API | jq '.[] | .name' |  sed 's/"//g'`
+  if [[ "$SRC_TYPE" == "gitee" ]]; then
+    SRC_REPOS=`curl $SRC_REPO_LIST_API | jq '.[] | .path' |  sed 's/"//g'`
+  else
+    SRC_REPOS=`curl $SRC_REPO_LIST_API | jq '.[] | .name' |  sed 's/"//g'`
+  fi
 else
   SRC_REPOS=`echo $STATIC_LIST | tr ',' ' '`
 fi
